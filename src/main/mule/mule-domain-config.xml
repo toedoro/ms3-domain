@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <domain:mule-domain
+        xmlns:db="http://www.mulesoft.org/schema/mule/db"
         xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
         xmlns:http="http://www.mulesoft.org/schema/mule/http"
         xmlns="http://www.mulesoft.org/schema/mule/core"
-        xmlns:domain="http://www.mulesoft.org/schema/mule/ee/domain"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+        xmlns:domain="http://www.mulesoft.org/schema/mule/ee/domain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
                http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
                http://www.mulesoft.org/schema/mule/ee/domain http://www.mulesoft.org/schema/mule/ee/domain/current/mule-domain-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
 	
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4f457358-730b-4370-bb58-94317c13c7e7" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
+		<http:listener-connection host="${domain.http.listener.host}" port="${domain.http.listener.port}" />
 	</http:listener-config>
 	
 	<tls:context name="httpsListener_tlsContext" 
         doc:name="TLS Context" doc:id="97d92b61-313d-46ba-b2b3-9f780376505f">
         <tls:key-store type="jks" 
-            path="keystore/keystore.jks" 
-            alias="mule" 
-            keyPassword="keystorepass" 
-            password="keystorepass" />
+            path="${domain.https.tls.keystore.path}" 
+            alias="${domain.https.tls.keystore.alias}" 
+            keyPassword="${domain.https.tls.keystore.keyPassword}" 
+            password="${domain.https.tls.keystore.password}" />
     </tls:context>
     
     <http:listener-config name="httpsListenerConfig"
         doc:name="HTTPS Listener config" doc:id="92e3225a-0387-481b-bb6f-923caefdbb9d">
         <http:listener-connection protocol="HTTPS" 
-            host="localhost" 
-            port="8082" 
+            host="${domain.https.listener.host}" 
+            port="${domain.https.listener.port}" 
             tlsContext="httpsListener_tlsContext" />
     </http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="a5991156-4db6-4296-82c2-4a8376b0fdd1" file="contacts-config-dev.yaml" />
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="32e1bb4a-0473-4118-85d5-aad345208c01" >
+		<db:my-sql-connection host="${domain.db.host}" port="${domain.db.port}" user="${domain.db.username}" password="${domain.db.password}" database="${domain.db.databse}"/>
+	</db:config>
 
     <!-- configure here resource to be shared within the domain -->
 

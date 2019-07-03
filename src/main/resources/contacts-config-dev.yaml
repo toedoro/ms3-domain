@@ -1,0 +1,24 @@
+domain:
+  http:
+    listener:
+      host: "0.0.0.0"
+      port: "8081"
+  https:
+    tls:
+      keystore:
+        path: "keystore/keystore.jks"
+        alias: "mule"
+        keyPassword: "keystorepass"        
+        password: "keystorepass"
+    listener:
+      host: "0.0.0.0"
+      port: "8082"
+  db:
+    host: "localhost"
+    port: "3306"
+    username: "root"
+    password: "1234"
+    databse: "ms3"
+
+
+  
